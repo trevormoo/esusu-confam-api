@@ -29,7 +29,7 @@ model Group {
   id          String         @id @default(uuid())
   name        String
   description String
-  isPublic    Boolean
+  visibility  String
   capacity    Int
   inviteCode  String         @unique
   adminId     String

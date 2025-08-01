@@ -4,6 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Request as ExpressRequest } from 'express';
 import { Get, Query } from '@nestjs/common';
 import { Param } from '@nestjs/common';
+import { CreateGroupDto } from './dto/create-group.dto';
 
 
 @Controller('groups')
@@ -47,14 +48,18 @@ export class GroupController {
       @Body() body: {
         name: string;
         description: string;
-        isPublic: boolean;
+        visibility: 'public' | 'private'; // from Postman
         capacity: number;
       },
-      @Request() req: ExpressRequest
+      @Request() req: Express.Request
     ) {
       const user = req.user as { userId: string };
+
       return this.groupService.createGroup({
-        ...body,
+        name: body.name,
+        description: body.description,
+        isPublic: body.visibility === 'public',
+        capacity: body.capacity,
         userId: user.userId,
       });
     }
