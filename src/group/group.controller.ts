@@ -23,9 +23,10 @@ export class GroupController {
 
 
     @Get('search')
-    async searchPublic(@Query('name') name: string) {
-      if (!name) return { results: [] };
-      return this.groupService.searchPublicGroups(name);
+    @UseGuards(AuthGuard('jwt'))
+    async searchPublic(@Query('query') query: string) {
+      if (!query) return { results: [] };
+      return this.groupService.searchPublicGroups(query);
     }
     
     
